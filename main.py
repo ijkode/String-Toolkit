@@ -9,9 +9,12 @@ from tkinter import simpledialog
 from textatistic import Textatistic
 from pynput.keyboard import Controller
 from googletrans import Translator
+import gtts
+from playsound import playsound
 import TKlighter
 import re
 import os
+import random
 
 root = Tk()
 root.title('String Toolkit')
@@ -19,6 +22,7 @@ root.iconbitmap(r'pencil.ico')
 root.geometry("500x470")
 translator = Translator()
 prev = " "
+prev_text = " "
 
 
 # print how many words and how many letters in the text
@@ -37,13 +41,14 @@ def press_space():
 
 # open text file
 def open_txt():
+    global prev_text
     my_text.delete(1.0, END)
     cwd = os.getcwd()
     text_file = filedialog.askopenfilename(initialdir=format(cwd), title="Open Text File",
                                            filetypes=(("Text Files", "*.txt"),))
     text_file = open(text_file, 'r', encoding='utf-8')
     stuff = text_file.read()
-
+    prev_text = stuff
     my_text.insert(END, stuff)
     press_space()
     text_file.close()
@@ -100,9 +105,9 @@ def count_chars():
 # get the definition of a word
 def dict_word():
     result = simpledialog.askstring("Definition", "Enter Word:")
-    mydict = PyDictionary(result)
+    my_dict = PyDictionary(result)
     my_text.delete(1.0, END)
-    result = str(mydict.getMeanings())
+    result = str(my_dict.getMeanings())
     result = result[2:]
     result = result[:-2]
 
@@ -294,11 +299,31 @@ def replace():
     my_text.insert(END, new)
 
 
+# load previous page
+def previous():
+    my_text.delete(1.0, END)
+    my_text.insert(END, prev_text)
+
+
+def play():
+    text = str(my_text.get(1.0, "end-1c"))
+    tts = gtts.gTTS(text)
+    h = random.randint(1, 10000000)
+    audio_file = str(h) + '.mp3'
+    tts.save(audio_file)
+    playsound(audio_file)
+    os.remove(audio_file)
+
+
 my_text = Text(root, width=40, height=10, font=("Helvetica", 16))
 my_text.pack(pady=20)
 
 photo = PhotoImage(file=r"find.png")
+photo1 = PhotoImage(file=r"return.png")
+photo2 = PhotoImage(file=r"play.png")
 photo_image = photo.subsample(3, 3)
+photo_image1 = photo1.subsample(3, 3)
+photo_image2 = photo2.subsample(3, 3)
 open_button = Button(root, text="Open Text File", command=open_txt)
 open_button.pack(pady=5)
 save_button = Button(root, text="Save File", command=save_txt)
@@ -317,6 +342,10 @@ find = Button(root, image=photo_image, command=find)
 find.place(x=355, y=288)
 replace = Button(root, text="Replace", command=replace)
 replace.pack(pady=1)
+previous = Button(root, image=photo_image1, command=previous)
+previous.place(x=95, y=288)
+play = Button(root, image=photo_image2, command=play)
+play.place(x=65, y=288)
 
 root.bind("<Key>", key_pressed)
 
