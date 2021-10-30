@@ -39,7 +39,7 @@ prev_text = " "
 # print how many words and how many letters in the text
 def key_pressed(event):
     counter = Label(root, text="Words: " + count_words() + " Characters: " + count_chars())
-    counter.place(x=10, y=450)
+    counter.place(x=375, y=480)
 
 
 # update the function above if we open text file
