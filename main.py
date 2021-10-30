@@ -2,6 +2,10 @@
 # author: Liran Libster
 
 from tkinter import *
+from tkinter import ttk
+
+from PIL import ImageTk, Image
+from ttkthemes import themed_tk as tk
 from tkinter import filedialog
 from collections import Counter
 from PyDictionary import PyDictionary
@@ -16,10 +20,17 @@ import re
 import os
 import random
 
-root = Tk()
+root = tk.ThemedTk()
+root.get_themes()
+root.set_theme("arc")
 root.title('String Toolkit')
 root.iconbitmap(r'pencil.ico')
-root.geometry("500x470")
+root.geometry("500x500")
+image = Image.open("background.png")
+image = ImageTk.PhotoImage(image)
+bg_label = ttk.Label(root, image=image)
+bg_label.place(x=0, y=0)
+bg_label.image = image
 translator = Translator()
 prev = " "
 prev_text = " "
@@ -324,28 +335,28 @@ photo2 = PhotoImage(file=r"play.png")
 photo_image = photo.subsample(3, 3)
 photo_image1 = photo1.subsample(3, 3)
 photo_image2 = photo2.subsample(3, 3)
-open_button = Button(root, text="Open Text File", command=open_txt)
+open_button = ttk.Button(root, text="Open Text File", command=open_txt)
 open_button.pack(pady=5)
-save_button = Button(root, text="Save File", command=save_txt)
+save_button = ttk.Button(root, text="Save File", command=save_txt)
 save_button.place(x=297, y=289)
-calc_button = Button(root, text="Calculate Words Frequency", command=calc_txt)
+calc_button = ttk.Button(root, text="Calculate Words Frequency", command=calc_txt)
 calc_button.pack(pady=1)
-arrange_button = Button(root, text="Text Arrange", command=arrange_txt)
-arrange_button.place(x=125, y=289)
-definition = Button(root, text="Definition", command=dict_word)
+arrange_button = ttk.Button(root, text="Text Arrange", command=arrange_txt)
+arrange_button.place(x=115, y=289)
+definition = ttk.Button(root, text="Definition", command=dict_word)
 definition.pack(pady=2)
-readability = Button(root, text="Readability Test", command=read_test)
+readability = ttk.Button(root, text="Readability Test", command=read_test)
 readability.pack(pady=1)
-translate = Button(root, text="Translate", command=trans)
+translate = ttk.Button(root, text="Translate", command=trans)
 translate.pack(pady=1)
-find = Button(root, image=photo_image, command=find)
-find.place(x=355, y=288)
-replace = Button(root, text="Replace", command=replace)
+find = ttk.Button(root, image=photo_image, command=find)
+find.place(x=380, y=288)
+replace = ttk.Button(root, text="Replace", command=replace)
 replace.pack(pady=1)
-previous = Button(root, image=photo_image1, command=previous)
-previous.place(x=95, y=288)
-play = Button(root, image=photo_image2, command=play)
-play.place(x=65, y=288)
+previous = ttk.Button(root, image=photo_image1, command=previous)
+previous.place(x=70, y=288)
+play = ttk.Button(root, image=photo_image2, command=play)
+play.place(x=30, y=288)
 
 root.bind("<Key>", key_pressed)
 
