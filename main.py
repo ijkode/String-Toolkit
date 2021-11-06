@@ -11,7 +11,6 @@ from collections import Counter
 from PyDictionary import PyDictionary
 from tkinter import simpledialog
 from textatistic import Textatistic
-from pynput.keyboard import Controller
 from googletrans import Translator
 import gtts
 from playsound import playsound
@@ -39,15 +38,7 @@ prev_text = " "
 # print how many words and how many letters in the text
 def key_pressed(event):
     counter = Label(root, text="Words: " + count_words() + " Characters: " + count_chars())
-    counter.place(x=375, y=480)
-
-
-# update the function above if we open text file
-def press_space():
-    keyboard = Controller()
-    key = " "
-    keyboard.press(key)
-    keyboard.release(key)
+    counter.place(x=350, y=480)
 
 
 # open text file
@@ -61,8 +52,6 @@ def open_txt():
     stuff = text_file.read()
     prev_text = stuff
     my_text.insert(END, stuff)
-    press_space()
-    text_file.close()
 
 
 # save text file
@@ -125,7 +114,6 @@ def dict_word():
     # remove unnecessary characters
     result = re.sub("'|}|{|\[|\]", "", result)
 
-    press_space()
     my_text.insert(END, result)
 
 
